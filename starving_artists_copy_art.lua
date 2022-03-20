@@ -2,6 +2,12 @@
   You need to put two arguments before this script.
   getgenv().target = ""; -- put target's nickname.
   getgenv().easel = 1; -- put target's easel that you want to copy.
+
+  How it should look like:
+  getgenv().target = "FunnyNoob";
+  getgenv().easel = 1;
+
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/dizyhvh/rbx_scripts/main/starving_artists_copy_art.lua", true))();
 ]]
 
 _, Protected_by_MoonSecV2, Discord = 'discord.gg/gQEH2uZxUk'
