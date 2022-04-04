@@ -8,7 +8,7 @@
 local coordmaster = {};
 local debounce = false;
 
-function coordmaster:Teleport(position, step_length, step_delay, callback)
+function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp, callback)
     if step_length == nil then return warn("[Coordmaster] Step length is nil/undefined."); end if step_delay == nil then return warn("[Coordmaster] Delay is nil/undefined."); end
 
     if not debounce then
@@ -34,6 +34,11 @@ function coordmaster:Teleport(position, step_length, step_delay, callback)
                 for i=1, steps do
                     wait(step_delay);
                     game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z);
+                    if bypass_anti_tp then
+                        game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false
+                        wait(0.1);
+                        game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
+                    end
                 end
 
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false;
