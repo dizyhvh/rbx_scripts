@@ -72,6 +72,8 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                     game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Freefall, true);
                     game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.FallingDown, true);
                     game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Flying, true);
+                    
+                    stop_coroutine = true;
                 end
 
                 debounce = false;
