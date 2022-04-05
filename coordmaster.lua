@@ -7,7 +7,9 @@
 
 local coordmaster = {};
 local debounce = false;
-local stop_coroutine;
+local a_p;
+local attach1;
+local attach2;
 
 function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp, callback)
     if step_length == nil then return warn("[Coordmaster] Step length is nil/undefined."); end if step_delay == nil then return warn("[Coordmaster] Delay is nil/undefined."); end
@@ -34,17 +36,21 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                 path[#path+1] = {x = position.X, y = position.Y, z = position.Z};
 
                 if bypass_anti_tp then
-                    coroutine.resume(coroutine.create(function()
-                         if not stop_coroutine then
-                             if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") ~= nil then
-                                 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Swimming);
-                             else
-                                 coroutine.yield()
-                             end
-                         else
-                             coroutine.yield()
-                         end
-                    end))
+                    a_p = Instance.new("AlignPosition", game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"));
+                    a_p.Parent.CanCollide = false;
+                    a_p.ApplyAtCenterOfMass = true;
+                    a_p.MaxForce = 67752;
+                    a_p.MaxVelocity = math.huge/9e110;
+                    a_p.ReactionForceEnabled = false;
+                    a_p.Responsiveness = 200;
+                    a_p.RigidityEnabled = false;
+                    
+                    attach1 = Instance.new("Attachment", game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"));
+                    attach2 = Instance.new("Attachment", game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"));
+                    attach2.Position = Vector3.new(0,0,0);
+                    
+                    a_p.Attachment0 = attach1;
+                    a_p.Attachment1 = attach2;
                 end
                 
                 for i=1, steps do
@@ -73,7 +79,9 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                     game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.FallingDown, true);
                     game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Flying, true);
                     
-                    stop_coroutine = true;
+                    if a_p ~= nil then a_p:Destroy(); end
+                    if attach1 ~= nil then attach1:Destroy(); end
+                    if attach2 ~= nil then attach2:Destroy(); end
                 end
 
                 debounce = false;
