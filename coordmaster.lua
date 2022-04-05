@@ -7,6 +7,7 @@
 
 local coordmaster = {};
 local debounce = false;
+local stop_coroutine;
 
 function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp, callback)
     if step_length == nil then return warn("[Coordmaster] Step length is nil/undefined."); end if step_delay == nil then return warn("[Coordmaster] Delay is nil/undefined."); end
@@ -32,6 +33,20 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                 end
                 path[#path+1] = {x = position.X, y = position.Y, z = position.Z};
 
+                if bypass_anti_tp then
+                    coroutine.resume(coroutine.create(function()
+                         if not stop_coroutine then
+                             if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") ~= nil then
+                                 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Swimming);
+                             else
+                                 coroutine.yield()
+                             end
+                         else
+                             coroutine.yield()
+                         end
+                    end))
+                end
+                
                 for i=1, steps do
                     wait(step_delay);
                     if bypass_anti_tp then
@@ -39,7 +54,6 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                         game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.FallingDown, false);
                         game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Flying, false);
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false;
-                        game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Swimming);
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z);
                         task.wait(0.025);
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
