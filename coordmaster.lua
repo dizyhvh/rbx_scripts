@@ -21,7 +21,8 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                 local path = {};
 
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
-
+                game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, false);
+                
                 for i=1, steps do
                     path[#path+1] = {
                         x = current_position.X + ((position.X - current_position.X) / steps) * i,
@@ -48,6 +49,7 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                 end
 
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false;
+                game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, true);
                 wait(2);
                 
                 callback();
