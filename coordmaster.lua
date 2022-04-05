@@ -13,7 +13,7 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
 
     if not debounce then
         if typeof(position) == "CFrame" or typeof(position) == "Vector3" then
-            if game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then
+            if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") ~= nil then
                 debounce = true;
 
                 local current_position = game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position;
@@ -36,7 +36,8 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                     if bypass_anti_tp then
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false;
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z);
-                        task.wait(0.085);
+                        game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.PlatformStanding);
+                        task.wait(0.055);
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
                     else
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z);
@@ -45,7 +46,12 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
 
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false;
                 wait(2);
+                
                 callback();
+                
+                if bypass_anti_tp then
+                    game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Running);
+                end
 
                 debounce = false;
             end
