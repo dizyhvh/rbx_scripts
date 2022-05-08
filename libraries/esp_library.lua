@@ -16,7 +16,7 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 		drawing.Size = tonumber(properties["Size"]);
 		drawing.Center = properties["Center"];
 		drawing.Outline = properties["Outline"];
-		drawing.OutlineColor = properties["OutlineColor"];
+		if properties["OutlineColor"] ~= nil then drawing.OutlineColor = properties["OutlineColor"]; end
 		drawing.TextBounds = properties["TextBounds"];
 		drawing.Font = properties["Font"];
 	elseif tostring(esp_type) == "Square" then
