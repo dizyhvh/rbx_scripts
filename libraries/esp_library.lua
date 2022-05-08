@@ -7,17 +7,17 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 	local drawing = Drawing.new(tostring(esp_type));
 	local destroy_drawing = false;
 	
-	drawing.Color = properties["Color"];
-	drawing.Transparency = tonumber(properties["Transparency"]);
-	drawing.ZIndex = tonumber(properties["ZIndex"]);
+	if drawing.Color ~= nil then drawing.Color = properties["Color"]; else drawing.Color = Color3.fromRGB(255, 255, 255); end
+	if properties["Transparency"] ~= nil then drawing.Transparency = tonumber(properties["Transparency"]); end
+	if properties["ZIndex"] ~= nil then drawing.ZIndex = tonumber(properties["ZIndex"]); end
 	
 	if tostring(esp_type) == "Text" then
 		drawing.Text = tostring(properties["Text"]);
 		drawing.Size = tonumber(properties["Size"]);
 		drawing.Center = properties["Center"];
 		drawing.Outline = properties["Outline"];
-		if properties["OutlineColor"] ~= nil then drawing.OutlineColor = properties["OutlineColor"]; end
-		drawing.TextBounds = properties["TextBounds"];
+		if properties["OutlineColor"] ~= nil then drawing.OutlineColor = properties["OutlineColor"]; else drawing.OutlineColor = Color3.fromRGB(255, 255, 255); end
+		if properties["TextBounds"] ~= nil then drawing.TextBounds = properties["TextBounds"]; end
 		drawing.Font = properties["Font"];
 	elseif tostring(esp_type) == "Square" then
 		drawing.Thickness = tonumber(properties["Thickness"]);
