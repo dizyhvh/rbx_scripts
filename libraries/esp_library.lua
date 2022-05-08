@@ -43,7 +43,11 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 
 			if isvisible then
 				if not drawing.Visible then drawing.Visible = true; end
-				drawing.Position = Vector2.new(s_p.X, s_p.Y);
+				if properties["PositionOffset"] ~= nil then
+				    drawing.Position = Vector2.new(properties["PositionOffset"].X, properties["PositionOffset"].Y);
+				else
+				    drawing.Position = Vector2.new(s_p.X, s_p.Y);
+			        end
 			else
 				drawing.Visible = false;
 			end
