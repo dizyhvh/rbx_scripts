@@ -56,6 +56,12 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 	
 	local drawing_functions = {}
 	
+	if tostring(esp_type) == "Text" then
+	    function drawing_functions:UpdateText(text)
+		drawing.Text = tostring(text);
+	    end
+	end
+	
 	function drawing_functions:Destroy()
 		destroy_drawing = true;
 	end
