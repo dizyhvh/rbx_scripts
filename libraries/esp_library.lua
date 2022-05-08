@@ -33,7 +33,8 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 	drawing.Visible = true;
 	
 	coroutine.resume(coroutine.create(function()
-		while task.wait() do
+		while true do
+			task.wait()
 			if base_part == nil or not base_part:IsDescendantOf(game:GetService("Workspace")) or destroy_drawing then
 				drawing:Remove();
 				coroutine.yield();
