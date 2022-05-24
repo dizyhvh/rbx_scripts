@@ -49,6 +49,19 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 				else
 				    drawing.Position = Vector2.new(s_p.X, s_p.Y);
 			        end
+				
+				if properties["SizeHandler"] ~= nil and properties["SizeHandler"] == true then
+				    if LocalPlayer.Character ~= nil and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then
+					if (((LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X) > properties["Size"].X*1.5 and (((LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y) > properties["Size"].Y*1.5 then 
+					     drawing.Size.X = properties["Size"].X;
+					     drawing.Size.Y = properties["Size"].Y;	
+					else
+					     drawing.Size.X = (((LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X);
+					     drawing.Size.Y = (((LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y);
+					end
+				    end
+				end
+				--[[ SizeHandler is in beta and it can give errors. Please, do not use it expecting it to perfectly work. ]]
 			else
 				drawing.Visible = false;
 			end
