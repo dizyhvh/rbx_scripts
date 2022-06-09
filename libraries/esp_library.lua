@@ -56,8 +56,8 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 					     drawing.Size = Vector2.new(properties["Size"].X, properties["Size"].Y);
 					else
 					     drawing.Size = Vector2.new((((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X), (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y))
-					     --drawing.Size.X = (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X);
-					     --drawing.Size.Y = (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y);
+					     --[[drawing.Size.X = (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X);
+					     drawing.Size.Y = (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y);]]
 					end
 				    end
 				end
