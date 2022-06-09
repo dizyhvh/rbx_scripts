@@ -6,7 +6,6 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 	
 	local drawing = Drawing.new(tostring(esp_type));
 	local destroy_drawing = false;
-	local LocalPlayer = game:GetService("Players").LocalPlayer;
 	
 	if drawing.Color ~= nil then drawing.Color = properties["Color"]; else drawing.Color = Color3.fromRGB(255, 255, 255); end
 	if properties["Transparency"] ~= nil then drawing.Transparency = tonumber(properties["Transparency"]); end
@@ -52,13 +51,13 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 			        end
 				
 				if properties["SizeHandler"] ~= nil and properties["SizeHandler"] == true then
-				    if LocalPlayer.Character ~= nil and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then
-					if (((LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X) > properties["Size"].X*1.5 and (((LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y) > properties["Size"].Y*1.5 then 
+				    if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then
+					if (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X) > properties["Size"].X*1.5 and (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y) > properties["Size"].Y*1.5 then 
 					     drawing.Size.X = properties["Size"].X;
 					     drawing.Size.Y = properties["Size"].Y;	
 					else
-					     drawing.Size.X = (((LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X);
-					     drawing.Size.Y = (((LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y);
+					     drawing.Size.X = (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X);
+					     drawing.Size.Y = (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y);
 					end
 				    end
 				end
