@@ -6,6 +6,7 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 	
 	local drawing = Drawing.new(tostring(esp_type));
 	local destroy_drawing = false;
+	local LocalPlayer = game:GetService("Players").LocalPlayer;
 	
 	if drawing.Color ~= nil then drawing.Color = properties["Color"]; else drawing.Color = Color3.fromRGB(255, 255, 255); end
 	if properties["Transparency"] ~= nil then drawing.Transparency = tonumber(properties["Transparency"]); end
