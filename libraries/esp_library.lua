@@ -1,7 +1,7 @@
 local esp_lib = {}
 
 function esp_lib:DrawESP(base_part, esp_type, properties)
-	if base_part == nil or base_part ~= nil and not base_part:IsA("BasePart") and not base_part:IsA("Part") and not base_part:IsA("MeshPart") then return error("[dizy's esp lib] Basepart is undefined.") end
+	if base_part == nil or base_part ~= nil and not base_part:IsA("BasePart") and not base_part:IsA("Part") and not base_part:IsA("MeshPart") and not basepart:IsA("UnionOperation") then return error("[dizy's esp lib] Basepart is undefined.") end
 	if esp_type == nil then return error("[dizy's esp lib] ESP Type is undefined.") elseif esp_type ~= nil and type(esp_type) == "string" and not esp_type == "Text" and not esp_type == "Circle" and not esp_type == "Square" then return error("[dizy's esp lib] Current ESP type doesn't exist.") end
 	
 	local drawing = Drawing.new(tostring(esp_type));
