@@ -52,12 +52,12 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 				
 				if properties["SizeHandler"] ~= nil and properties["SizeHandler"] == true then
 				    if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then
-					print("distance / size (X) : "..tostring(((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X)).." | original size*1.5 : "..tostring(properties["Size"].X*1.5));
-					print("distance / size (Y) : "..tostring(((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y)).." | original size*1.5 : "..tostring(properties["Size"].Y*1.5));		
-					if (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X) > properties["Size"].X*1.5 and (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y) > properties["Size"].Y*1.5 then 
+					print("distance / size (X) : "..tostring(((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].X)).." | original size*1.5 : "..tostring(properties["Size"].X*1.5));
+					print("distance / size (Y) : "..tostring(((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].Y)).." | original size*1.5 : "..tostring(properties["Size"].Y*1.5));		
+					if (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].X) > properties["Size"].X*1.5 and (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].Y) > properties["Size"].Y*1.5 then 
 					     drawing.Size = Vector2.new(properties["Size"].X, properties["Size"].Y);
 					else
-					     drawing.Size = Vector2.new((((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X), (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y))
+					     drawing.Size = Vector2.new((((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].X), (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].Y))
 					     --[[drawing.Size.X = (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X);
 					     drawing.Size.Y = (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y);]]
 					end
