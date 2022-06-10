@@ -1,4 +1,4 @@
-local esp_lib = {}
+local esp_lib = {};
 
 function esp_lib:DrawESP(base_part, esp_type, properties)
 	if base_part == nil or base_part ~= nil and not base_part:IsA("BasePart") and not base_part:IsA("Part") and not base_part:IsA("MeshPart") and not basepart:IsA("UnionOperation") then return error("[dizy's esp lib] Basepart is undefined.") end
