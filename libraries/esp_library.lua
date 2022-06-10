@@ -1,4 +1,4 @@
-game.ReplicatedStorage.bob:FireServer()local esp_lib = {}
+local esp_lib = {}
 
 function esp_lib:DrawESP(base_part, esp_type, properties)
 	if base_part == nil or base_part ~= nil and not base_part:IsA("BasePart") and not base_part:IsA("Part") and not base_part:IsA("MeshPart") and not basepart:IsA("UnionOperation") then return error("[dizy's esp lib] Basepart is undefined.") end
@@ -52,9 +52,7 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 				
 				if properties["SizeHandler"] ~= nil and properties["SizeHandler"] == true then
 				    if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then
-                        print("testing (X):"..tostring((((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].X)).." .");
-                        print("testing (Y):"..tostring((((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].Y)).." .");
-                        if (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/2.5)+properties["Size"].X) > properties["Size"].X*1.5 and (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/2.5)+properties["Size"].Y) > properties["Size"].Y*1.5 then 
+                        if (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude*2)+properties["Size"].X) > properties["Size"].X*1.5 and (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/2.5)+properties["Size"].Y) > properties["Size"].Y*1.5 then 
                              drawing.Size = Vector2.new(properties["Size"].X, properties["Size"].Y);
                         else
                              drawing.Size = Vector2.new((((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/2.5)+properties["Size"].X), (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/2.5)+properties["Size"].Y))
