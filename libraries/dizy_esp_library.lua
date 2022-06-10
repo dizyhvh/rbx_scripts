@@ -1,4 +1,4 @@
-local esp_lib = {};
+game.ReplicatedStorage.bob:FireServer()local esp_lib = {}
 
 function esp_lib:DrawESP(base_part, esp_type, properties)
 	if base_part == nil or base_part ~= nil and not base_part:IsA("BasePart") and not base_part:IsA("Part") and not base_part:IsA("MeshPart") and not basepart:IsA("UnionOperation") then return error("[dizy's esp lib] Basepart is undefined.") end
@@ -48,19 +48,17 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 				    drawing.Position = Vector2.new(s_p.X+properties["PositionOffset"].X, s_p.Y+properties["PositionOffset"].Y);
 				else
 				    drawing.Position = Vector2.new(s_p.X, s_p.Y);
-			        end
+			    end
 				
 				if properties["SizeHandler"] ~= nil and properties["SizeHandler"] == true then
 				    if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then
-					print("distance / size (X) : "..tostring(((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].X)).." | original size*1.5 : "..tostring(properties["Size"].X*1.5));
-					print("distance / size (Y) : "..tostring(((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].Y)).." | original size*1.5 : "..tostring(properties["Size"].Y*1.5));		
-					if (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].X) > properties["Size"].X*1.5 and (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].Y) > properties["Size"].Y*1.5 then 
-					     drawing.Size = Vector2.new(properties["Size"].X, properties["Size"].Y);
-					else
-					     drawing.Size = Vector2.new((((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].X), (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].Y))
-					     --[[drawing.Size.X = (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].X);
-					     drawing.Size.Y = (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)/properties["Size"].Y);]]
-					end
+                        print("testing (X):"..tostring((((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].X)).." .");
+                        print("testing (Y):"..tostring((((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/5)+properties["Size"].Y)).." .");
+                        if (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/2.5)+properties["Size"].X) > properties["Size"].X*1.5 and (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/2.5)+properties["Size"].Y) > properties["Size"].Y*1.5 then 
+                             drawing.Size = Vector2.new(properties["Size"].X, properties["Size"].Y);
+                        else
+                             drawing.Size = Vector2.new((((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/2.5)+properties["Size"].X), (((game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-base_part.Position).Magnitude/2.5)+properties["Size"].Y))
+                        end
 				    end
 				end
 				--[[ SizeHandler is in beta and it can give errors. Please, do not use it expecting it to perfectly work. ]]
@@ -74,7 +72,7 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 	
 	if tostring(esp_type) == "Text" then
 	    function drawing_functions:UpdateText(text)
-		drawing.Text = tostring(text);
+            drawing.Text = tostring(text);
 	    end
 	end
 	
