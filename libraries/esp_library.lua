@@ -44,10 +44,33 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
 
 			if isvisible then
 				if not drawing.Visible then drawing.Visible = true; end
+
+                local esp_points = {
+                    base_part.CFrame * CFrame.new(base_part.CFrame.X / 2, base_part.CFrame.Y / 2, base_part.CFrame.Z / 2),
+                    base_part.CFrame * CFrame.new(-base_part.CFrame.X / 2, base_part.CFrame.Y / 2, base_part.CFrame.Z / 2),
+                    base_part.CFrame * CFrame.new(-base_part.CFrame.X / 2, -base_part.CFrame.Y / 2, base_part.CFrame.Z / 2),
+                    base_part.CFrame * CFrame.new(base_part.CFrame.X / 2, -base_part.CFrame.Y / 2, base_part.CFrame.Z / 2),
+                    base_part.CFrame * CFrame.new(base_part.CFrame.X / 2, base_part.CFrame.Y / 2, -base_part.CFrame.Z / 2),
+                    base_part.CFrame * CFrame.new(-base_part.CFrame.X / 2, base_part.CFrame.Y / 2, -base_part.CFrame.Z / 2),
+                    base_part.CFrame * CFrame.new(base_part.CFrame.X / 2, -base_part.CFrame.Y / 2, -base_part.CFrame.Z / 2),
+                    base_part.CFrame * CFrame.new(-base_part.CFrame.X / 2, -base_part.CFrame.Y / 2, -base_part.CFrame.Z / 2),
+                };
+                local pos_x1, pos_y1 = 0, 0;
+                local pos_x2, pos_y2 = game:GetService("Workspace").CurrentCamera.ViewportSize.X, game:GetService("Workspace").CurrentCamera.ViewportSize.Y;
+
+                for _,point in pairs(esp_points) do
+                    local camera_pos = game:GetService("Workspace").CurrentCamera:WorldToViewportPoint(point.Position);
+                    
+                    if camera_pos.X > pos_x1 then pos_x1 = camera_pos.X; end
+                    if camera_pos.X < pos_x2 then pos_x2 = camera_pos.X; end
+                    if camera_pos.Y > pos_x1 then pos_y1 = camera_pos.Y; end
+                    if camera_pos.Y < pos_y2 then pos_y2 = camera_pos.Y; end
+                end
+
 				if properties["PositionOffset"] ~= nil then
-				    drawing.Position = Vector2.new(s_p.X+properties["PositionOffset"].X, s_p.Y+properties["PositionOffset"].Y);
+				    drawing.Position = Vector2.new((pos_x1 - (pos_x1 - pos_x2))+properties["PositionOffset"].X, (pos_y1 - (pos_y1 - pos_y2))+properties["PositionOffset"].Y);
 				else
-				    drawing.Position = Vector2.new(s_p.X, s_p.Y);
+				    drawing.Position = Vector2.new(pos_x1 - (pos_x1 - pos_x2), pos_y1 - (pos_y1 - pos_y2));
 			    end
 				
 				if properties["SizeHandler"] ~= nil and properties["SizeHandler"] == true then
