@@ -63,7 +63,7 @@ function esp_lib:DrawESP(base_part, esp_type, properties)
                     
                     if camera_pos.X > pos_x1 then pos_x1 = camera_pos.X; end
                     if camera_pos.X < pos_x2 then pos_x2 = camera_pos.X; end
-                    if camera_pos.Y > pos_x1 then pos_y1 = camera_pos.Y; end
+                    if camera_pos.Y > pos_y1 then pos_y1 = camera_pos.Y; end
                     if camera_pos.Y < pos_y2 then pos_y2 = camera_pos.Y; end
                 end
 
