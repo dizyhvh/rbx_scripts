@@ -25,7 +25,7 @@ function coordmaster:Teleport(position, step_type, step_length, step_delay, bypa
                 
                 for i=1, steps do
                     if step_type == 2 then
-                        local random_step_length = Random.new(tick()):NextNumber(step_length, step_length+2);
+                        local random_step_length = Random.new(tick()):NextNumber(step_length-1, step_length);
                         path[#path+1] = {
                             x = current_position.X + ((position.X - current_position.X) / math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length)) * i,
                             y = current_position.Y + ((position.Y - current_position.Y) / math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length)) * i,
