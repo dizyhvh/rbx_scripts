@@ -23,15 +23,20 @@ function coordmaster:Teleport(position, step_type, step_length, step_delay, bypa
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
                 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, false);
                 
-                for i=1, steps do
-                    if step_type == 2 then
+                if step_type == 2 then
+                    for i=1, steps do
                         local random_step_length = Random.new(tick()):NextNumber(step_length-1, step_length);
+                        
+                        steps = math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length);
+                        
                         path[#path+1] = {
-                            x = current_position.X + ((position.X - current_position.X) / math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length)) * i,
-                            y = current_position.Y + ((position.Y - current_position.Y) / math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length)) * i,
-                            z = current_position.Z + ((position.Z - current_position.Z) / math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length)) * i,
+                            x = current_position.X + ((position.X - current_position.X) / steps) * i,
+                            y = current_position.Y + ((position.Y - current_position.Y) / steps) * i,
+                            z = current_position.Z + ((position.Z - current_position.Z) / steps) * i,
                         }
-                    else
+                    end
+                else
+                    for i=1, steps do
                         path[#path+1] = {
                             x = current_position.X + ((position.X - current_position.X) / steps) * i,
                             y = current_position.Y + ((position.Y - current_position.Y) / steps) * i,
