@@ -8,7 +8,7 @@
 local coordmaster = {};
 local debounce = false;
 
-function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp, callback)
+function coordmaster:Teleport(position, step_type, step_length, step_delay, bypass_anti_tp, callback)
     if step_length == nil then return warn("[Coordmaster] Step length is nil/undefined."); end if step_delay == nil then return warn("[Coordmaster] Delay is nil/undefined."); end
 
     if not debounce then
@@ -24,11 +24,20 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, false);
                 
                 for i=1, steps do
-                    path[#path+1] = {
-                        x = current_position.X + ((position.X - current_position.X) / steps) * i,
-                        y = current_position.Y + ((position.Y - current_position.Y) / steps) * i,
-                        z = current_position.Z + ((position.Z - current_position.Z) / steps) * i,
-                    }
+                    if step_type == 2 then
+                        local random_step_length = Random.new(tick()):NextNumber(step_length, step_length+2);
+                        path[#path+1] = {
+                            x = current_position.X + ((position.X - current_position.X) / math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length)) * i,
+                            y = current_position.Y + ((position.Y - current_position.Y) / math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length)) * i,
+                            z = current_position.Z + ((position.Z - current_position.Z) / math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length)) * i,
+                        }
+                    else
+                        path[#path+1] = {
+                            x = current_position.X + ((position.X - current_position.X) / steps) * i,
+                            y = current_position.Y + ((position.Y - current_position.Y) / steps) * i,
+                            z = current_position.Z + ((position.Z - current_position.Z) / steps) * i,
+                        }
+                    end
                 end
                 path[#path+1] = {x = position.X, y = position.Y, z = position.Z};
                 
