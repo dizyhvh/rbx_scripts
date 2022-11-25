@@ -34,6 +34,7 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                 
                 for i=1, steps do
                     wait(step_delay);
+                    game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Velocity = Vector3.new(0, Random.new(tick()):NextInteger(17, 20), 0);
                     if bypass_anti_tp then
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false;
                         task.wait(0.05);
