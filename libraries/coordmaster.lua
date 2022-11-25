@@ -54,7 +54,7 @@ function coordmaster:Teleport(position, step_length, step_delay, bypass_anti_tp,
                     end
                 end
                 
-                wait(2);
+                wait();
                 
                 callback();
 
