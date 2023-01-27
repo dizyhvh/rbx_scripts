@@ -52,10 +52,10 @@ function coordmaster:Teleport(position, step_type, step_length, step_delay, bypa
                     if bypass_anti_tp then
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false;
                         task.wait(0.05);
-                        game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * CFrame.Angles(0, math.rad(math.random(0, 90), 0);
+                        game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * CFrame.Angles(0, math.rad(math.random(0, 90)), 0);
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
                     else
-                        game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * CFrame.Angles(0, math.rad(math.random(0, 90), 0);
+                        game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * CFrame.Angles(0, math.rad(math.random(0, 90)), 0);
                     end
                 end
 
