@@ -9,6 +9,7 @@
 
 local coordmaster = {};
 local debounce = false;
+local debounce2 = {};
 
 function coordmaster:Teleport(position, step_type, step_length, step_delay, bypass_anti_tp, callback)
     if step_length == nil then return warn("[Coordmaster] Step length is nil/undefined."); end if step_delay == nil then return warn("[Coordmaster] Delay is nil/undefined."); end
@@ -97,13 +98,13 @@ end
 function coordmaster:TeleportInstance(instance, position, step_type, step_length, step_delay, bypass_anti_tp, callback)
     if instance == nil then return warn("[Coordmaster] Instance is nil/undefined."); end if step_length == nil then return warn("[Coordmaster] Step length is nil/undefined."); end if step_delay == nil then return warn("[Coordmaster] Delay is nil/undefined."); end
 
-    if debounce then
+    if table.find(debounce2, instance) then
         return;
     end
     
     if typeof(position) == "CFrame" or typeof(position) == "Vector3" then
         if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") ~= nil then
-            debounce = true;
+            table.insert(debounce2, instance);
 
             local current_position = instance.Position;
             local steps = math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / step_length);
@@ -166,7 +167,9 @@ function coordmaster:TeleportInstance(instance, position, step_type, step_length
                 
             callback();
 
-            debounce = false;
+            if table.find(debounce2, instance) then
+                table.remove(debounce2, table.find(debounce2, instance));
+            end
         end
     end
 end
