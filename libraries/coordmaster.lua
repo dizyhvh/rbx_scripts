@@ -52,7 +52,14 @@ function coordmaster:Teleport(position, step_type, step_length, step_delay, bypa
             end
             path[#path+1] = {x = position.X, y = position.Y, z = position.Z};
                 
+            local stop_tping = false;
+            
             for i=1, steps do
+                if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and (game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 5 or stop_tping then
+                    stop_tping = true;
+                    continue;
+                end
+                
                 task.wait(step_delay);
                 
                 if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
@@ -135,7 +142,14 @@ function coordmaster:TeleportInstance(instance, position, step_type, step_length
             end
             path[#path+1] = {x = position.X, y = position.Y, z = position.Z};
                 
+            local stop_tping = false;
+            
             for i=1, steps do
+                if instance ~= nil and (instance.Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 5 or stop_tping then
+                    stop_tping = true;
+                    continue;
+                end
+                
                 task.wait(step_delay);
                 
                 if i > 1 and instance == nil then
