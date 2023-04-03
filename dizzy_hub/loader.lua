@@ -94,7 +94,15 @@ local supported_games = {
 	["4522347649"] = {
 		["name"] = "[FREE ADMIN]",
 		["script_url"] = "https://raw.githubusercontent.com/dizyhvh/rbx_scripts/main/dizzy_hub/scripts/free_admin.lua"
-	}
+	},
+	["4997792989"] = {
+		["name"] = "Симулятор Бомжа В России",
+		["script_url"] = "https://raw.githubusercontent.com/dizyhvh/rbx_scripts/main/dizzy_hub/scripts/homeless_simulator_in_russia.lua"
+	},
+	["9718523719"] = {
+		["name"] = "Raise A Noob",
+		["script_url"] = "https://raw.githubusercontent.com/dizyhvh/rbx_scripts/main/dizzy_hub/scripts/raise_a_noob.lua"
+	},
 }
 local supported_script = nil;
 local closing_loader = false;
