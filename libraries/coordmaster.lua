@@ -63,7 +63,7 @@ function coordmaster:Teleport(position, step_type, step_length, step_delay, bypa
                 task.wait(step_delay);
                 
                 if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
-                    return error("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
+                    return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
                 end
                 
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Velocity = Vector3.new(0, Random.new(tick()):NextInteger(17, 20), 0);
@@ -74,7 +74,7 @@ function coordmaster:Teleport(position, step_type, step_length, step_delay, bypa
                     task.wait(0.05);
                     
                     if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
-                        return error("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
+                        return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
                     end
                     
                     game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * CFrame.Angles(0, math.rad(math.random(0, 90)), 0);
@@ -153,7 +153,7 @@ function coordmaster:TeleportInstance(instance, position, step_type, step_length
                 task.wait(step_delay);
                 
                 if i > 1 and instance == nil then
-                    return error("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
+                    return warn("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
                 end
                 
                 instance.Velocity = Vector3.new(0, Random.new(tick()):NextInteger(17, 20), 0);
@@ -163,7 +163,7 @@ function coordmaster:TeleportInstance(instance, position, step_type, step_length
                     task.wait(0.05);
                     
                     if i > 1 and instance == nil then
-                        return error("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
+                        return warn("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
                     end
             
                     instance.CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * CFrame.Angles(0, math.rad(math.random(0, 90)), 0);
