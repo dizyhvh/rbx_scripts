@@ -21,7 +21,7 @@ function coordmaster:Teleport(position, angles, step_type, step_length, step_del
     end
     
     if not (typeof(angles) == "CFrame" or typeof(angles) == "Vector3") or angles == nil then
-        angles = CFrame.Angles(0, math.rad(0, 90), 0);
+        angles = CFrame.Angles(0, math.rad(90), 0);
     end
     
     if typeof(position) == "CFrame" or typeof(position) == "Vector3" then
@@ -119,7 +119,7 @@ function coordmaster:TeleportInstance(instance, position, angles, step_type, ste
     end
     
     if not (typeof(angles) == "CFrame" or typeof(angles) == "Vector3") or angles == nil then
-        angles = CFrame.Angles(0, math.rad(0, 90), 0);
+        angles = CFrame.Angles(0, math.rad(90), 0);
     end
     
     if typeof(position) == "CFrame" or typeof(position) == "Vector3" then
