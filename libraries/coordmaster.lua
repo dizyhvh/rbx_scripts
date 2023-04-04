@@ -11,11 +11,17 @@ local coordmaster = {};
 local debounce = false;
 local debounce2 = {};
 
-function coordmaster:Teleport(position, step_type, step_length, step_delay, bypass_anti_tp, callback)
-    if step_length == nil then return warn("[Coordmaster] Step length is nil/undefined."); end if step_delay == nil then return warn("[Coordmaster] Delay is nil/undefined."); end
+function coordmaster:Teleport(position, angles, step_type, step_length, step_delay, bypass_anti_tp, callback)
+    assert(position ~= nil, "[Coordmaster] Position is nil/undefined.");
+    assert(step_length ~= nil, "[Coordmaster] Step length is nil/undefined.");
+    assert(step_delay ~= nil, "[Coordmaster] Delay is nil/undefined.");
 
     if debounce then
         return;
+    end
+    
+    if not (typeof(angles) == "CFrame" or typeof(angles) == "Vector3") or angles == nil then
+        angles = CFrame.Angles(0, math.rad(0, 90), 0);
     end
     
     if typeof(position) == "CFrame" or typeof(position) == "Vector3" then
@@ -77,10 +83,10 @@ function coordmaster:Teleport(position, step_type, step_length, step_delay, bypa
                         return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
                     end
                     
-                    game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * CFrame.Angles(0, math.rad(math.random(0, 90)), 0);
+                    game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * angles;
                     game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
                 else
-                    game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * CFrame.Angles(0, math.rad(math.random(0, 90)), 0);
+                    game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * angles;
                 end
             end
 
@@ -102,11 +108,18 @@ function coordmaster:Teleport(position, step_type, step_length, step_delay, bypa
     end
 end
 
-function coordmaster:TeleportInstance(instance, position, step_type, step_length, step_delay, bypass_anti_tp, callback)
-    if instance == nil then return warn("[Coordmaster] Instance is nil/undefined."); end if step_length == nil then return warn("[Coordmaster] Step length is nil/undefined."); end if step_delay == nil then return warn("[Coordmaster] Delay is nil/undefined."); end
+function coordmaster:TeleportInstance(instance, position, angles, step_type, step_length, step_delay, bypass_anti_tp, callback)
+    assert(instance ~= nil, "[Coordmaster] Instance is nil/undefined.");
+    assert(position ~= nil, "[Coordmaster] Position is nil/undefined.");
+    assert(step_length ~= nil, "[Coordmaster] Step length is nil/undefined.");
+    assert(step_delay ~= nil, "[Coordmaster] Delay is nil/undefined.");
 
     if table.find(debounce2, instance) then
         return;
+    end
+    
+    if not (typeof(angles) == "CFrame" or typeof(angles) == "Vector3") or angles == nil then
+        angles = CFrame.Angles(0, math.rad(0, 90), 0);
     end
     
     if typeof(position) == "CFrame" or typeof(position) == "Vector3" then
@@ -166,10 +179,10 @@ function coordmaster:TeleportInstance(instance, position, step_type, step_length
                         return warn("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
                     end
             
-                    instance.CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * CFrame.Angles(0, math.rad(math.random(0, 90)), 0);
+                    instance.CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * angles;
                     instance.Anchored = true;
                 else
-                    instance.CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * CFrame.Angles(0, math.rad(math.random(0, 90)), 0);
+                    instance.CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * angles;
                 end
             end
 
