@@ -77,7 +77,7 @@ function coordmaster:Teleport(position, angles, step_type, step_length, step_del
                 if bypass_anti_tp then
                     game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false;
                     
-                    task.wait(0.05);
+                    task.wait();
                     
                     if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
                         return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
@@ -98,8 +98,6 @@ function coordmaster:Teleport(position, angles, step_type, step_length, step_del
                     game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, true);
                 end
             end
-                
-            task.wait();
                 
             callback();
 
@@ -173,7 +171,7 @@ function coordmaster:TeleportInstance(instance, position, angles, step_type, ste
                 if bypass_anti_tp then
                     instance.Anchored = false;
                     
-                    task.wait(0.05);
+                    task.wait();
                     
                     if i > 1 and instance == nil then
                         return warn("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
@@ -189,8 +187,6 @@ function coordmaster:TeleportInstance(instance, position, angles, step_type, ste
             if instance ~= nil then
                 instance.Anchored = false;
             end
-                
-            task.wait();
                 
             callback();
 
