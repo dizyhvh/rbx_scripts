@@ -69,6 +69,7 @@ function coordmaster:Teleport(position, angles, step_type, step_length, step_del
                 task.wait(step_delay);
                 
                 if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
+                    debounce = false;
                     return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
                 end
                 
@@ -80,6 +81,7 @@ function coordmaster:Teleport(position, angles, step_type, step_length, step_del
                     task.wait();
                     
                     if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
+                        debounce = false;
                         return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
                     end
                     
@@ -164,6 +166,7 @@ function coordmaster:TeleportInstance(instance, position, angles, step_type, ste
                 task.wait(step_delay);
                 
                 if i > 1 and instance == nil then
+                    debounce = false;
                     return warn("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
                 end
                 
@@ -174,6 +177,7 @@ function coordmaster:TeleportInstance(instance, position, angles, step_type, ste
                     task.wait();
                     
                     if i > 1 and instance == nil then
+                        debounce = false;
                         return warn("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
                     end
             
