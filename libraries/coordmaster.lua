@@ -8,55 +8,48 @@
 ]]
 
 local coordmaster = {};
+
 local debounce = false;
 local debounce2 = {};
 
-function coordmaster:Teleport(position, angles, step_type, step_length, step_delay, bypass_anti_tp, callback)
-    assert(position ~= nil, "[Coordmaster] Position is nil/undefined.");
-    assert(step_length ~= nil, "[Coordmaster] Step length is nil/undefined.");
-    assert(step_delay ~= nil, "[Coordmaster] Delay is nil/undefined.");
+function coordmaster:Teleport(args, callback)
+    assert(args ~= nil or typeof(args) ~= "table", "[Coordmaster] Arguments are nil/undefined. (should be table)");
+    assert(args["Position"] ~= nil, "[Coordmaster] Position is nil/undefined.");
+    assert(args["StepLength"] ~= nil, "[Coordmaster] Step length is nil/undefined.");
+    assert(args["StepDelay"] ~= nil, "[Coordmaster] Delay is nil/undefined.");
 
     if debounce then
         return;
     end
     
-    if not (typeof(angles) == "CFrame" or typeof(angles) == "Vector3") or angles == nil then
-        angles = CFrame.Angles(0, math.rad(90), 0);
+    if not (typeof(args["Rotation"]) == "CFrame" or typeof(args["Rotation"]) == "Vector3") or args["Rotation"] == nil then
+        args["Rotation"] = CFrame.Angles(0, math.rad(90), 0);
     end
     
-    if typeof(position) == "CFrame" or typeof(position) == "Vector3" then
+    if typeof(args["Position"]) == "CFrame" or typeof(args["Position"]) == "Vector3" then
         if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") ~= nil then
             debounce = true;
 
             local current_position = game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position;
-            local steps = math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / step_length);
+            local steps = math.floor(math.sqrt((args["Position"].X - current_position.X) ^ 2 + (args["Position"].Y - current_position.Y) ^ 2 + (args["Position"].Z - current_position.Z) ^ 2 ) / args["StepLength"]);
             local path = {};
 
             game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
             game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, false);
                 
-            if step_type == 2 then
-                for i=1, steps do
-                    local random_step_length = Random.new(tick()):NextNumber(step_length-1, step_length);
-                        
-                    steps = math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length);
-                        
-                    path[#path+1] = {
-                        x = current_position.X + ((position.X - current_position.X) / steps) * i,
-                        y = current_position.Y + ((position.Y - current_position.Y) / steps) * i,
-                        z = current_position.Z + ((position.Z - current_position.Z) / steps) * i,
-                    }
+            for i=1, steps do
+                if args["StepType"] == 2 then
+                    local random_step_length = Random.new(tick()):NextNumber(args["StepLength"] / 2, args["StepLength"]);
+                    steps = math.floor(math.sqrt((args["Position"].X - current_position.X) ^ 2 + (args["Position"].Y - current_position.Y) ^ 2 + (args["Position"].Z - current_position.Z) ^ 2 ) / random_step_length);
                 end
-            else
-                for i=1, steps do
-                    path[#path+1] = {
-                        x = current_position.X + ((position.X - current_position.X) / steps) * i,
-                        y = current_position.Y + ((position.Y - current_position.Y) / steps) * i,
-                        z = current_position.Z + ((position.Z - current_position.Z) / steps) * i,
-                    }
-                end
+
+                path[#path+1] = {
+                    x = current_position.X + ((args["Position"].X - current_position.X) / steps) * i,
+                    y = current_position.Y + ((args["Position"].Y - current_position.Y) / steps) * i,
+                    z = current_position.Z + ((args["Position"].Z - current_position.Z) / steps) * i,
+                }
             end
-            path[#path+1] = {x = position.X, y = position.Y, z = position.Z};
+            path[#path+1] = {x = args["Position"].X, y = args["Position"].Y, z = args["Position"].Z};
                 
             local stop_tping = false;
             
@@ -66,7 +59,7 @@ function coordmaster:Teleport(position, angles, step_type, step_length, step_del
                     continue;
                 end
                 
-                task.wait(step_delay);
+                task.wait(args["StepDelay"]);
                 
                 if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
                     debounce = false;
@@ -75,7 +68,7 @@ function coordmaster:Teleport(position, angles, step_type, step_length, step_del
                 
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Velocity = Vector3.new(0, Random.new(tick()):NextInteger(17, 20), 0);
                 
-                if bypass_anti_tp then
+                if args["BypassAntiTP"] then
                     game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false;
                     
                     task.wait();
@@ -85,10 +78,10 @@ function coordmaster:Teleport(position, angles, step_type, step_length, step_del
                         return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
                     end
                     
-                    game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * angles;
+                    game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * args["Rotation"];
                     game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
                 else
-                    game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * angles;
+                    game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * args["Rotation"];
                 end
             end
 
@@ -108,94 +101,95 @@ function coordmaster:Teleport(position, angles, step_type, step_length, step_del
     end
 end
 
-function coordmaster:TeleportInstance(instance, position, angles, step_type, step_length, step_delay, bypass_anti_tp, callback)
-    assert(instance ~= nil, "[Coordmaster] Instance is nil/undefined.");
-    assert(position ~= nil, "[Coordmaster] Position is nil/undefined.");
-    assert(step_length ~= nil, "[Coordmaster] Step length is nil/undefined.");
-    assert(step_delay ~= nil, "[Coordmaster] Delay is nil/undefined.");
+function coordmaster:TeleportInstance(args, callback)
+    assert(args ~= nil or typeof(args) ~= "table", "[Coordmaster] Arguments are nil/undefined. (should be table)");
+    assert(args["Instance"] ~= nil, "[Coordmaster] Instance is nil/undefined.");
+    assert(args["Position"] ~= nil, "[Coordmaster] Position is nil/undefined.");
+    assert(args["StepLength"] ~= nil, "[Coordmaster] Step length is nil/undefined.");
+    assert(args["StepDelay"] ~= nil, "[Coordmaster] Delay is nil/undefined.");
 
-    if table.find(debounce2, instance) then
+    if table.find(debounce2, args["Instance"]) then
         return;
     end
     
-    if not (typeof(angles) == "CFrame" or typeof(angles) == "Vector3") or angles == nil then
-        angles = CFrame.Angles(0, math.rad(90), 0);
+    if not (typeof(args["Rotation"]) == "CFrame" or typeof(args["Rotation"]) == "Vector3") or args["Rotation"] == nil then
+        args["Rotation"] = CFrame.Angles(0, math.rad(90), 0);
     end
     
-    if typeof(position) == "CFrame" or typeof(position) == "Vector3" then
+    if typeof(args["Position"]) == "CFrame" or typeof(args["Position"]) == "Vector3" then
         if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid") ~= nil then
-            table.insert(debounce2, instance);
+            table.insert(debounce2, args["Instance"]);
 
-            local current_position = instance.Position;
-            local steps = math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / step_length);
+            local current_position = args["Instance"].Position;
+            local steps = math.floor(math.sqrt((args["Position"].X - current_position.X) ^ 2 + (args["Position"].Y - current_position.Y) ^ 2 + (args["Position"].Z - current_position.Z) ^ 2 ) / args["StepLength"]);
             local path = {};
 
-            instance.Anchored = true;
+            args["Instance"].Anchored = true;
 
-            if step_type == 2 then
+            if args["StepType"] == 2 then
                 for i=1, steps do
-                    local random_step_length = Random.new(tick()):NextNumber(step_length-1, step_length);
+                    local random_step_length = Random.new(tick()):NextNumber(args["StepLength"] / 2, args["StepLength"]);
                         
-                    steps = math.floor(math.sqrt((position.X - current_position.X) ^ 2 + (position.Y - current_position.Y) ^ 2 + (position.Z - current_position.Z) ^ 2 ) / random_step_length);
+                    steps = math.floor(math.sqrt((args["Position"].X - current_position.X) ^ 2 + (args["Position"].Y - current_position.Y) ^ 2 + (args["Position"].Z - current_position.Z) ^ 2 ) / random_step_length);
                         
                     path[#path+1] = {
-                        x = current_position.X + ((position.X - current_position.X) / steps) * i,
-                        y = current_position.Y + ((position.Y - current_position.Y) / steps) * i,
-                        z = current_position.Z + ((position.Z - current_position.Z) / steps) * i,
+                        x = current_position.X + ((args["Position"].X - current_position.X) / steps) * i,
+                        y = current_position.Y + ((args["Position"].Y - current_position.Y) / steps) * i,
+                        z = current_position.Z + ((args["Position"].Z - current_position.Z) / steps) * i,
                     }
                 end
             else
                 for i=1, steps do
                     path[#path+1] = {
-                        x = current_position.X + ((position.X - current_position.X) / steps) * i,
-                        y = current_position.Y + ((position.Y - current_position.Y) / steps) * i,
-                        z = current_position.Z + ((position.Z - current_position.Z) / steps) * i,
+                        x = current_position.X + ((args["Position"].X - current_position.X) / steps) * i,
+                        y = current_position.Y + ((args["Position"].Y - current_position.Y) / steps) * i,
+                        z = current_position.Z + ((args["Position"].Z - current_position.Z) / steps) * i,
                     }
                 end
             end
-            path[#path+1] = {x = position.X, y = position.Y, z = position.Z};
+            path[#path+1] = {x = args["Position"].X, y = args["Position"].Y, z = args["Position"].Z};
                 
             local stop_tping = false;
             
             for i=1, steps do
-                if instance ~= nil and (instance.Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 5 or stop_tping then
+                if args["Instance"] ~= nil and (args["Instance"].Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 5 or stop_tping then
                     stop_tping = true;
                     continue;
                 end
                 
-                task.wait(step_delay);
+                task.wait(args["StepDelay"]);
                 
-                if i > 1 and instance == nil then
+                if i > 1 and args["Instance"] == nil then
                     debounce = false;
                     return warn("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
                 end
                 
-                instance.Velocity = Vector3.new(0, Random.new(tick()):NextInteger(17, 20), 0);
-                if bypass_anti_tp then
-                    instance.Anchored = false;
+                args["Instance"].Velocity = Vector3.new(0, Random.new(tick()):NextInteger(17, 20), 0);
+                if args["BypassAntiTP"] then
+                    args["Instance"].Anchored = false;
                     
                     task.wait();
                     
-                    if i > 1 and instance == nil then
+                    if i > 1 and args["Instance"] == nil then
                         debounce = false;
                         return warn("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
                     end
             
-                    instance.CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * angles;
-                    instance.Anchored = true;
+                    args["Instance"].CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * args["Rotation"];
+                    args["Instance"].Anchored = true;
                 else
-                    instance.CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * angles;
+                    args["Instance"].CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * args["Rotation"];
                 end
             end
 
-            if instance ~= nil then
-                instance.Anchored = false;
+            if args["Instance"] ~= nil then
+                args["Instance"].Anchored = false;
             end
                 
             callback();
 
-            if table.find(debounce2, instance) then
-                table.remove(debounce2, table.find(debounce2, instance));
+            if table.find(debounce2, args["Instance"]) then
+                table.remove(debounce2, table.find(debounce2, args["Instance"]));
             end
         end
     end
