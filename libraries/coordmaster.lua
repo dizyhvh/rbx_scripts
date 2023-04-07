@@ -50,12 +50,14 @@ function coordmaster:Teleport(args, callback)
                 }
             end
             path[#path+1] = {x = args["Position"].X, y = args["Position"].Y, z = args["Position"].Z};
-                
-            local stop_tping = false;
             
+            local stop_tping = false;
+            if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and (game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 3.5 then
+                stop_tping = true;
+            end
+                
             for i=1, steps do
-                if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and (game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 5 or stop_tping then
-                    stop_tping = true;
+                if stop_tping then
                     continue;
                 end
                 
@@ -148,12 +150,14 @@ function coordmaster:TeleportInstance(args, callback)
                 end
             end
             path[#path+1] = {x = args["Position"].X, y = args["Position"].Y, z = args["Position"].Z};
-                
+            
             local stop_tping = false;
+            if args["Instance"] ~= nil and (args["Instance"].Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 3.5 then
+                return;
+            end
             
             for i=1, steps do
-                if args["Instance"] ~= nil and (args["Instance"].Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 5 or stop_tping then
-                    stop_tping = true;
+                if stop_tping then
                     continue;
                 end
                 
