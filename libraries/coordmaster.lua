@@ -49,7 +49,6 @@ function coordmaster:Teleport(args, callback)
             local steps = math.floor(math.sqrt((args["Position"].X - current_position.X) ^ 2 + (args["Position"].Y - current_position.Y) ^ 2 + (args["Position"].Z - current_position.Z) ^ 2 ) / args["StepLength"]);
             local path = {};
 
-            game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
             game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, false);
                 
             for i=1, steps do
@@ -165,8 +164,6 @@ function coordmaster:TeleportInstance(args, callback)
             local current_position = args["Instance"].Position;
             local steps = math.floor(math.sqrt((args["Position"].X - current_position.X) ^ 2 + (args["Position"].Y - current_position.Y) ^ 2 + (args["Position"].Z - current_position.Z) ^ 2 ) / args["StepLength"]);
             local path = {};
-
-            args["Instance"].Anchored = true;
 
             if args["StepType"] == 2 then
                 for i=1, steps do
