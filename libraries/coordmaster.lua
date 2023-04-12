@@ -61,8 +61,6 @@ function coordmaster:Teleport(args, callback)
                     continue;
                 end
                 
-                task.wait(args["StepDelay"]);
-                
                 if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
                     debounce = false;
                     return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
@@ -73,18 +71,13 @@ function coordmaster:Teleport(args, callback)
                 if args["BypassAntiTP"] then
                     game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false;
                     
-                    task.wait();
-                    
-                    if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
-                        debounce = false;
-                        return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
-                    end
-                    
                     game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * args["Rotation"];
                     game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true;
                 else
                     game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * args["Rotation"];
                 end
+                
+                task.wait(args["StepDelay"]);
             end
 
             if game:GetService("Players").LocalPlayer.Character ~= nil then
@@ -96,7 +89,9 @@ function coordmaster:Teleport(args, callback)
                 end
             end
                 
-            callback();
+            if callback ~= nil then
+                callback();
+            end
 
             debounce = false;
         end
@@ -171,14 +166,7 @@ function coordmaster:TeleportInstance(args, callback)
                 args["Instance"].Velocity = Vector3.new(0, Random.new(tick()):NextInteger(17, 20), 0);
                 if args["BypassAntiTP"] then
                     args["Instance"].Anchored = false;
-                    
-                    task.wait();
-                    
-                    if i > 1 and args["Instance"] == nil then
-                        debounce = false;
-                        return warn("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
-                    end
-            
+
                     args["Instance"].CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * args["Rotation"];
                     args["Instance"].Anchored = true;
                 else
@@ -189,8 +177,10 @@ function coordmaster:TeleportInstance(args, callback)
             if args["Instance"] ~= nil then
                 args["Instance"].Anchored = false;
             end
-                
-            callback();
+               
+            if callback ~= nil then
+                callback();
+            end
 
             if table.find(debounce2, args["Instance"]) then
                 table.remove(debounce2, table.find(debounce2, args["Instance"]));
