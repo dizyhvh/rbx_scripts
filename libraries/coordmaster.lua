@@ -69,7 +69,7 @@ function coordmaster:Teleport(args, callback)
             local stop_tping = false;
             if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and (game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 3.5 then
                 stop_tping = true;
-            elseif step["VelocityFix"] == 2 then
+            elseif args["VelocityFix"] == 2 then
                 vel_fix = game:GetService("RunService").Stepped:Connect(function()
                     if game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil then
                         vel_fix:Disconnect();
@@ -195,7 +195,7 @@ function coordmaster:TeleportInstance(args, callback)
             local stop_tping = false;
             if args["Instance"] ~= nil and (args["Instance"].Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 3.5 then
                 stop_tping = true;
-            elseif step["VelocityFix"] == 2 then
+            elseif args["VelocityFix"] == 2 then
                 vel_fix = game:GetService("RunService").Stepped:Connect(function()
                     if args["Instance"] == nil then
                         vel_fix:Disconnect();
