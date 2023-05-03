@@ -8,11 +8,9 @@ tab1:NewCheckbox("Push Aura", function(bool)
     getgenv().PushAura = bool;
     
     if bool then
-        getgenv().PACon = false;
-        
         coroutine.resume(coroutine.create(function()
             while wait() do
-                if not getgenv().PushAura or getgenv().PACon == true then
+                if not getgenv().PushAura then
                     getgenv().PACon = true;
                     coroutine.yield();
                 end
@@ -30,8 +28,6 @@ tab1:NewCheckbox("Push Aura", function(bool)
                 end
             end
         end))
-    else
-        getgenv().PACon = true;
     end
 end)
 
@@ -68,11 +64,9 @@ tab1:NewCheckbox("Anti Ragdoll", function(bool)
 end)
 
 gui:BindToClose(function()
+    getgenv().PushAura = false;
+        
     if ar_con1 ~= nil then
         ar_con1:Disconnect();
-    end
-    
-    if getgenv().PACon ~= nil then
-        getgenv().PACon = true;
     end
 end)
