@@ -103,6 +103,10 @@ local supported_games = {
 		["name"] = "Raise A Noob",
 		["script_url"] = "https://raw.githubusercontent.com/dizyhvh/rbx_scripts/main/dizzy_hub/scripts/raise_a_noob.lua"
 	},
+	["12941479903"] = {
+		["name"] = "Bomb Click Mine",
+		["script_url"] = "https://raw.githubusercontent.com/dizyhvh/rbx_scripts/main/dizzy_hub/scripts/bomb_click_mine.lua",
+	}
 }
 local supported_script = nil;
 local closing_loader = false;
