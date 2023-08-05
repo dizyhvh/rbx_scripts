@@ -14,9 +14,9 @@ local debounce2 = {};
 
 --[[
     Usage:
-     - coordmaster:Teleport({args["Position"] = CFrame.new(), args["Rotation"] = Vector3.new(), args["StepLength"] = 1, args["StepDelay"] = 0.1, args["StepType"] = 1, args["VelocityFix"] = 1}, callback);
-                           (destination position,            (Angles of Character)                                                              (1 - DEFAULT step,     (1 - UNSAFE fix,
-                           COULD BE Vector3.new())                                                                                               2 - DYNAMIC step)      2 - SAFE fix)
+     - coordmaster:Teleport({args["Position"] = CFrame.new(), args["Rotation"] = Vector3.new(), args["StepLength"] = 1, args["StepDelay"] = 0.1, args["StepType"] = 1, args["VelocityFix"] = 1, args["StopCondition"]}, callback);
+                           (destination position,            (Angles of Character)                                                              (1 - DEFAULT step,     (1 - UNSAFE fix,         (function to stop tp
+                           COULD BE Vector3.new())                                                                                               2 - DYNAMIC step)      2 - SAFE fix)           on conditions)
 ]]
 
 function coordmaster:Teleport(args, callback)
@@ -85,6 +85,11 @@ function coordmaster:Teleport(args, callback)
                     if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
                         debounce = false;
                         return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
+                    end
+
+                    if args["StopCondition"] ~= nil and args["StopCondition"]() == true then
+                        debounce = false;
+                        break;
                     end
                     
                     if args["VelocityFix"] <= 1 then
@@ -209,6 +214,11 @@ function coordmaster:TeleportInstance(args, callback)
                     if i > 1 and args["Instance"] == nil then
                         debounce = false;
                         return warn("[Coordmaster] Instance got destroyed! For security reasons, script has previously stopped.");
+                    end
+
+                    if args["StopCondition"] ~= nil and args["StopCondition"]() == true then
+                        debounce = false;
+                        break;
                     end
                     
                     if step["VelocityFix"] <= 1 then
