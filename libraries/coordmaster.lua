@@ -83,11 +83,19 @@ function coordmaster:Teleport(args, callback)
             if not stop_tping then
                 for i=1, steps do
                     if i > 1 and (game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil) then
+                        if vel_fix ~= nil then
+                            vel_fix:Disconnect();
+                        end
+                        
                         debounce = false;
                         return warn("[Coordmaster] Character's RootPart (HumanoidRootPart) got destroyed! For security reasons, script has previously stopped.");
                     end
 
                     if args["StopCondition"] ~= nil and args["StopCondition"]() == true then
+                        if vel_fix ~= nil then
+                            vel_fix:Disconnect();
+                        end
+                        
                         debounce = false;
                         break;
                     end
