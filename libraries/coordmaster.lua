@@ -52,11 +52,6 @@ function coordmaster:Teleport(args, callback)
     LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, false);
                 
     for i=1, steps do
-        if args["StepType"] == 2 then
-            
-            steps = math.floor(math.sqrt((args["Position"].X - currentPosition.X) ^ 2 + (args["Position"].Y - currentPosition.Y) ^ 2 + (args["Position"].Z - currentPosition.Z) ^ 2 ) / random_step_length);
-        end
-
         path[#path+1] = {
             x = currentPosition.X + ((args["Position"].X - currentPosition.X) / steps) * i,
             y = currentPosition.Y + ((args["Position"].Y - currentPosition.Y) / steps) * i,
