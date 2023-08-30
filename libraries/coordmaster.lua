@@ -12,7 +12,7 @@ function coordmaster:Teleport(args, callback)
         return;
     end
 
-    assert(type(args) ~= "table", "[Coordmaster] Arguments are undefined. (should be table)");
+    assert(args ~= nil or typeof(args) ~= "table", "[Coordmaster] Arguments are undefined. (should be table)");
     if typeof(args["Position"]) ~= "CFrame" and typeof(args["Position"]) ~= "Vector3" then
         return error("[Coordmaster] Position is undefined. (expected Vector3 or CFrame)");
     end
