@@ -82,6 +82,10 @@ function coordmaster:Teleport(args, callback)
             Debounce = false;
             return;
         end
+
+        if path[i] == nil then
+            break;
+        end
                     
         if args["VelocityFix"] <= 1 then
             LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Velocity = Vector3.new(0, Random.new(tick()):NextInteger(17, 20), 0);
