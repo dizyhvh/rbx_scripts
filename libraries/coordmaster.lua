@@ -27,7 +27,9 @@ function coordmaster:Teleport(args, callback)
     assert(args ~= nil or typeof(args) ~= "table", "[Coordmaster] Arguments are nil/undefined. (should be table)");
     assert(args["Position"] ~= nil, "[Coordmaster] Position is nil/undefined.");
     assert(args["StepLength"] ~= nil, "[Coordmaster] Step length is nil/undefined.");
-    assert(args["StepDelay"] ~= nil);
+    if args["StepDelay"] == nil and args["DynamicStepDelay"] == nil then
+        error("[Coordmaster] Delay is nil/undefined.");
+    end
     
     if args["Rotation"] == nil or typeof(args["Rotation"]) ~= "CFrame" then
         args["Rotation"] = CFrame.Angles(0, math.rad(90), 0);
