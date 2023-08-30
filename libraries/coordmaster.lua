@@ -40,6 +40,8 @@ function coordmaster:Teleport(args, callback)
         return;
     end
 
+    Debounce = true;
+    
     local steps = nil;
     if args["StepType"] == 2 then
         steps = math.floor(math.sqrt((args["Position"].X - currentPosition.X) ^ 2 + (args["Position"].Y - currentPosition.Y) ^ 2 + (args["Position"].Z - currentPosition.Z) ^ 2 ) / args["StepLength"]);
@@ -62,8 +64,8 @@ function coordmaster:Teleport(args, callback)
             
     if args["VelocityFix"] == 2 then
         velFix = game:GetService("RunService").Stepped:Connect(function()
-            if game:GetService("Players").LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil then
-                vel_fix:Disconnect();
+            if not Debounce or LocalPlayer.Character == nil or LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil then
+                velFix:Disconnect();
             end
                     
             game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").AssemblyAngularVelocity = Vector3.new(0, 0, 0);
@@ -71,8 +73,6 @@ function coordmaster:Teleport(args, callback)
             game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Velocity = Vector3.new(0, 0, 0);
         end)
     end
-            
-    Debounce = true;
 
     for i=1, steps do
         if LocalPlayer.Character == nil or game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil or args["StopCondition"] ~= nil and args["StopCondition"]() == true then
