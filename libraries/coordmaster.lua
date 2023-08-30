@@ -120,6 +120,7 @@ function coordmaster:Teleport(args, callback)
                     task.wait(delay);
                 end
             else
+                print("test");
                 game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[#path].x, path[#path].y, path[#path].z) * args["Rotation"];
             end
 
