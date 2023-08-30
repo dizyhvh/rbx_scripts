@@ -68,7 +68,7 @@ function coordmaster:Teleport(args, callback)
             path[#path+1] = {x = args["Position"].X, y = args["Position"].Y, z = args["Position"].Z};
             
             local stop_tping = false;
-            if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and (game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= 3.5 then
+            if game:GetService("Players").LocalPlayer.Character ~= nil and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil and (game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position-Vector3.new(path[#path].x, path[#path].y, path[#path].z)).Magnitude <= args["StepLength"] then
                 stop_tping = true;
             elseif args["VelocityFix"] == 2 then
                 vel_fix = game:GetService("RunService").Stepped:Connect(function()
@@ -119,6 +119,8 @@ function coordmaster:Teleport(args, callback)
                     print(delay)
                     task.wait(delay);
                 end
+            else
+                game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * args["Rotation"];
             end
 
             if vel_fix ~= nil then
