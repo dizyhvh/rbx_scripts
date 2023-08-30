@@ -120,7 +120,7 @@ function coordmaster:Teleport(args, callback)
                     task.wait(delay);
                 end
             else
-                game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * args["Rotation"];
+                game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[#path].x, path[#path].y, path[#path].z) * args["Rotation"];
             end
 
             if vel_fix ~= nil then
