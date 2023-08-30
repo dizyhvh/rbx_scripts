@@ -27,7 +27,7 @@ function coordmaster:Teleport(args, callback)
     assert(args ~= nil or typeof(args) ~= "table", "[Coordmaster] Arguments are nil/undefined. (should be table)");
     assert(args["Position"] ~= nil, "[Coordmaster] Position is nil/undefined.");
     assert(args["StepLength"] ~= nil, "[Coordmaster] Step length is nil/undefined.");
-    assert(args["StepDelay"] ~= nil, "[Coordmaster] Delay is nil/undefined.");
+    assert(args["StepDelay"] ~= nil and args["DynamicStepDelay"] ~= nil, "[Coordmaster] Delay is nil/undefined.");
     
     if args["Rotation"] == nil or typeof(args["Rotation"]) ~= "CFrame" then
         args["Rotation"] = CFrame.Angles(0, math.rad(90), 0);
@@ -112,8 +112,10 @@ function coordmaster:Teleport(args, callback)
                     else
                         game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(path[i].x, path[i].y, path[i].z) * args["Rotation"];
                     end
-                    
-                    task.wait(args["StepDelay"]);
+
+                    local delay = args["StepDelay"] ~= nil and args["StepDelay"] or args["DynamicStepDelay"]();
+                    print(delay)
+                    task.wait(delay);
                 end
             end
 
