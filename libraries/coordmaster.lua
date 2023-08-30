@@ -2,8 +2,8 @@ local Players = game:GetService("Players");
 local LocalPlayer = Players.LocalPlayer;
 
 local Debounce = false;
-
-function coordMaster:Teleport(args, callback)
+local coordmaster = {};
+function coordmaster:Teleport(args, callback)
     if Debounce then
         return;
     end
