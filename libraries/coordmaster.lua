@@ -40,14 +40,20 @@ function coordmaster:Teleport(args, callback)
         return;
     end
 
-    local steps = math.floor(math.sqrt((args["Position"].X - currentPosition.X) ^ 2 + (args["Position"].Y - currentPosition.Y) ^ 2 + (args["Position"].Z - currentPosition.Z) ^ 2 ) / args["StepLength"]);
+    local steps = nil;
+    if args["StepType"] == 2 then
+        steps = math.floor(math.sqrt((args["Position"].X - currentPosition.X) ^ 2 + (args["Position"].Y - currentPosition.Y) ^ 2 + (args["Position"].Z - currentPosition.Z) ^ 2 ) / args["StepLength"]);
+    else
+        local randomStepLength = Random.new(tick()):NextNumber(args["StepLength"] / 1.5, args["StepLength"]);
+        steps = math.floor(math.sqrt((args["Position"].X - currentPosition.X) ^ 2 + (args["Position"].Y - currentPosition.Y) ^ 2 + (args["Position"].Z - currentPosition.Z) ^ 2 ) / randomStepLength);
+    end
     local path = {};
 
     LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, false);
                 
     for i=1, steps do
         if args["StepType"] == 2 then
-            local random_step_length = Random.new(tick()):NextNumber(args["StepLength"] / 2, args["StepLength"]);
+            
             steps = math.floor(math.sqrt((args["Position"].X - currentPosition.X) ^ 2 + (args["Position"].Y - currentPosition.Y) ^ 2 + (args["Position"].Z - currentPosition.Z) ^ 2 ) / random_step_length);
         end
 
