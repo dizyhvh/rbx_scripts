@@ -37,6 +37,10 @@ function coordmaster:Teleport(args, callback)
 
     if (currentPosition-Vector3.new(args["Position"].X, args["Position"].Y, args["Position"].Z)).Magnitude <= args["StepLength"] then
         LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(args["Position"].X, args["Position"].Y, args["Position"].Z);
+        if typeof(callback) == "function" then
+            task.spawn(callback);
+        end
+        
         return;
     end
 
