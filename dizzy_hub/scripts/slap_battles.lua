@@ -49,8 +49,8 @@ local GM_OldCFrame = nil;
 
 local no_slap_cooldown = nil;
 no_slap_cooldown = hookfunction(wait, function(_time)
-    return no_slap_cooldown(_time == 0.5 and getgenv().NoSlapCooldown and 0.1 or _time);
-end)
+    return no_slap_cooldown((_time > 0) and getgenv().NoSlapCooldown and 0.1 or _time);
+end);
 
 tab1:NewCheckbox("Auto Farm",function(bool)
     getgenv().AutoFarm["State"] = bool;
